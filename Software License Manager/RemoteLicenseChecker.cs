@@ -10,7 +10,7 @@ namespace Software_License_Manager
 {
     public static class RemoteLicenseChecker
     {
-        private const string ConnectionString = "Server=localhost;Database=testdb;Uid=testuser;Pwd=testpw;";
+        private const string ConnectionString = "Server=localhost;Database=SLM;Uid=root;Pwd=;";
 
         /// <summary>
         /// Prüft, ob der gegebene Lizenzschlüssel und die aktuelle Hardware-ID
@@ -21,13 +21,13 @@ namespace Software_License_Manager
         /// <returns>true, wenn gültige Lizenz gefunden, sonst false.</returns>
         public static bool CheckLicense(string licenseKey, string currentHardwareId)
         {
-            // 1) Falls nichts übergeben wurde, direkt ungültig
+            // Falls nichts übergeben wurde, direkt ungültig
             if (string.IsNullOrWhiteSpace(licenseKey)) return false;
 
-            // 2) Hardware-ID hashen
+            // Hardware-ID hashen
             string hardwareHash = ComputeSha256(currentHardwareId ?? "");
 
-            // 3) Datenbankabfrage: Lizenz suchen
+            // Datenbankabfrage: Lizenz suchen
             //    Annahme: license_key ist eindeutig in der DB
             string sql = @"
             SELECT hardware_id_hash 
@@ -59,8 +59,8 @@ namespace Software_License_Manager
                             return true;
                         }
 
-                        // 4) Hashvergleich
-                        //    Stimmen DB und aktuelle Hardware überein?
+                        //Hashvergleich
+                        //Stimmen DB und aktuelle Hardware überein?
                         return string.Equals(storedHardwareHash, hardwareHash, StringComparison.OrdinalIgnoreCase);
                     }
                 }

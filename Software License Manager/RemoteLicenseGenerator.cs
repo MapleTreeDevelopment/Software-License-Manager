@@ -8,9 +8,8 @@ namespace Software_License_Manager
 
     public static class RemoteLicenseGenerator
     {
-        // Beispiel für eine Verbindungszeichenfolge
-        // (Anpassen an deinen Server, User, Passwort, DB-Namen)
-        private const string ConnectionString = "Server=localhost;Database=testdb;Uid=testuser;Pwd=testpw;";
+
+        private const string ConnectionString = "Server=localhost;Database=SLM;Uid=root;Pwd=;";
 
         /// <summary>
         /// Erstellt einen Lizenzschlüssel und schreibt ihn zusammen mit der
@@ -25,19 +24,18 @@ namespace Software_License_Manager
         /// <returns>Der neu erzeugte Lizenzschlüssel, den du dem Nutzer geben kannst.</returns>
         public static string GenerateAndStoreLicense(string hardwareId, string firstName, string lastName)
         {
-            // 1) Benutzername kombinieren
+            //Benutzername kombinieren
             string userName = $"{firstName} {lastName}".Trim();
 
-            // 2) Serial Key erzeugen (z. B. mittels einfachem Hashing oder random)
-            // Hier nutzen wir als Demo eine Mini-Methode (kannst du ersetzen)
+            // Serial Key erzeugen
             string licenseKey = GenerateSimpleSerialKey();
 
-            // 3) Hardware-ID in SHA-256 hashen (falls du die ID fest koppeln willst)
+            // Hardware-ID in SHA-256 hashen
             string hardwareIdHash = string.IsNullOrEmpty(hardwareId)
                 ? ""
                 : ComputeSha256(hardwareId);
 
-            // 4) In die MySQL-Datenbank eintragen
+            // In die MySQL-Datenbank eintragen
             using (var connection = new MySqlConnection(ConnectionString))
             {
                 connection.Open();
@@ -57,7 +55,7 @@ namespace Software_License_Manager
                 }
             }
 
-            // 5) Den erzeugten Lizenzschlüssel zurückgeben
+            //Den erzeugten Lizenzschlüssel zurückgeben
             return licenseKey;
         }
 

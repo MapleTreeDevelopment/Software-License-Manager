@@ -76,6 +76,24 @@ namespace SLM_Test.command
                 }
             );
 
+            _commands["rlicense"] = new Command(
+                "rlicense",
+                "rlicense befehle. Nutzung: rlicense <vorname> <nachname>",
+                args =>
+                {
+                    if (args.Length < 2)
+                    {
+                        Console.WriteLine("Bitte zwei argumente angeben");
+                        return;
+                    }
+                    string vorname = args[0];
+                    string nachname = args[1];
+                    Console.WriteLine(RemoteLicenseGenerator.GenerateAndStoreLicense(HardwareId.GetCombinedHardwareId(), vorname, nachname));
+                }
+            );
+
+
+
             // 3) Befehl "exit"
             _commands["exit"] = new Command(
                 "exit",
