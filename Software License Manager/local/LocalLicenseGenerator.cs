@@ -4,39 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Software_License_Manager
+namespace Software_License_Manager.local
 {
     using System;
     using System.Security.Cryptography;
     using System.Text;
 
-    public static class LicenseGenerator
+    public static class LocalLicenseGenerator
     {
         /// <summary>
         /// Erzeugt aus Hardware-ID, Vorname und Nachname einen (einfachen) Serial Key.
         /// </summary>
         public static string GenerateSerialKey(string hardwareId, string firstName, string lastName)
         {
-            // 1) Kombiniere Name und Hardware-ID
-            // Beispiel: "Max Mustermann|ABCDEF123456"
+            //Kombiniere Name und Hardware-ID
             string combined = $"{firstName} {lastName}|{hardwareId}";
 
-            // 2) Hash bilden (SHA-256)
+            //Hash bilden (SHA-256)
             byte[] hashBytes = ComputeSha256(combined);
 
-            // 3) Serial Key formatieren (z. B. in Blöcken zu 5 Zeichen Base32)
-            //     Alternativ: Hex, Base64, etc.
+            //Serial Key formatieren (z. B. in Blöcken zu 5 Zeichen Base32)
             string base32 = ToBase32String(hashBytes);
             // z. B. "ABCDEFGHIJKLMNOPQRSTUVWXYZ12345"
 
-            // 4) In Blöcke trennen, z. B. 5er-Gruppen
+            // In Blöcke trennen, z. B. 5er-Gruppen
             // "ABCDE-FGHIJ-KLMNO-PQRST-UVWXY-12345"
             string serialKey = ChunkString(base32, 5, '-');
 
-            // Ggf. kürzen, wenn der Hash zu lang ist
-            // Hier nehmen wir beispielsweise die ersten 25 Zeichen (5 Blöcke) 
-            // plus den letzten Block, um auf 6 Blöcke zu kommen
-            // => 30 Zeichen Base32 gesamt
             if (serialKey.Length > 6 * 6 - 1) // 6 Blöcke a 5 Zeichen + 5 Trenner => 35 + 5 = 41
             {
                 serialKey = serialKey.Substring(0, 6 * 6 - 1);
@@ -68,17 +62,17 @@ namespace Software_License_Manager
 
             foreach (byte b in data)
             {
-                value = (value << 8) | b;
+                value = value << 8 | b;
                 bits += 8;
                 while (bits >= 5)
                 {
-                    sb.Append(alphabet[(value >> (bits - 5)) & 0x1F]);
+                    sb.Append(alphabet[value >> bits - 5 & 0x1F]);
                     bits -= 5;
                 }
             }
             if (bits > 0)
             {
-                sb.Append(alphabet[(value << (5 - bits)) & 0x1F]);
+                sb.Append(alphabet[value << 5 - bits & 0x1F]);
             }
             return sb.ToString();
         }

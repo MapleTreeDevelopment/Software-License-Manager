@@ -1,4 +1,6 @@
 ﻿using Software_License_Manager;
+using Software_License_Manager.local;
+using Software_License_Manager.remote;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,7 +74,7 @@ namespace SLM_Test.command
                     }
                     string vorname = args[0];
                     string nachname = args[1];
-                    Console.WriteLine(LicenseGenerator.GenerateSerialKey(HardwareId.GetCombinedHardwareId(), vorname, nachname));
+                    Console.WriteLine(LocalLicenseGenerator.GenerateSerialKey(HardwareId.GetCombinedHardwareId(), vorname, nachname));
                 }
             );
 

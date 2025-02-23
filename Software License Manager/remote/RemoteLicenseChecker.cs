@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Software_License_Manager
+namespace Software_License_Manager.remote
 {
     public static class RemoteLicenseChecker
     {

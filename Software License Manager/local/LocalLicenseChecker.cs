@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Software_License_Manager
+namespace Software_License_Manager.local
 {
 
     public static class LocalLicenseChecker
@@ -31,18 +31,17 @@ namespace Software_License_Manager
             string storedLicenseKey,
             string storedHashedHwId)
         {
-            // 1) Lizenzschlüssel vergleichen
-            //    (Je nach Fall vielleicht Case-Insensitiv)
+            // Lizenzschlüssel vergleichen
             if (!string.Equals(enteredLicenseKey, storedLicenseKey, StringComparison.OrdinalIgnoreCase))
             {
                 // Ungültiger Lizenzschlüssel
                 return false;
             }
 
-            // 2) Hardware-ID hashen
+            //Hardware-ID hashen
             string hashedCurrentHwId = ComputeSha256(currentHardwareId);
 
-            // 3) Vergleich mit gespeicherter Hardware-ID
+            //Vergleich mit gespeicherter Hardware-ID
             return hashedCurrentHwId.Equals(storedHashedHwId, StringComparison.OrdinalIgnoreCase);
         }
 

@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using MySql.Data.MySqlClient;
 
-namespace Software_License_Manager
+namespace Software_License_Manager.remote
 {
 
     public static class RemoteLicenseGenerator
