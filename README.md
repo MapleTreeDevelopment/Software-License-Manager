@@ -1,1 +1,1 @@
-# Software License Manager
+# Software License Manager (SLM)
