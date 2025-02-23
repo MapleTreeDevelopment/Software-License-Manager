@@ -1,0 +1,100 @@
+﻿using Software_License_Manager;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SLM_Test.command
+{
+    public class CommandManager
+    {
+
+        private static Dictionary<string, Command> _commands = new Dictionary<string, Command>(StringComparer.OrdinalIgnoreCase);
+
+        public CommandManager()
+        {
+            RegisterCommands();
+        }
+
+        public Dictionary<string, Command> GetCommands()
+        {
+            return _commands;
+        }
+
+        private static void RegisterCommands()
+        {
+            // 1) Der "help"-Befehl
+            _commands["help"] = new Command(
+                "help",
+                "Zeigt eine Liste aller verfügbaren Befehle an.",
+                args =>
+                {
+                    Console.WriteLine("Verfügbare Befehle:");
+                    foreach (var cmd in _commands.Values)
+                    {
+                        Console.WriteLine($"{cmd.Name} - {cmd.Description}");
+                    }
+                }
+            );
+
+            _commands["hw"] = new Command(
+                "hw",
+                "Hardware befehle. Nutzung: hw <id/info>",
+                args =>
+                {
+                    if (args.Length == 0)
+                    {
+                        Console.WriteLine("Bitte ein argument angeben");
+                        return;
+                    }
+                    if (args[0] == "id")
+                    {
+                        string id = HardwareId.GetCombinedHardwareId();
+                        Console.WriteLine($"Hardware ID: '{id}'");
+                    }
+                    if (args[0] == "info")
+                    {
+                        HardwareId.PrintDetails();
+                    }
+                }
+            );
+
+            _commands["license"] = new Command(
+                "license",
+                "license befehle. Nutzung: license <vorname> <nachname>",
+                args =>
+                {
+                    if (args.Length < 2)
+                    {
+                        Console.WriteLine("Bitte zwei argumente angeben");
+                        return;
+                    }
+                    string vorname = args[0];
+                    string nachname = args[1];
+                    Console.WriteLine(LicenseGenerator.GenerateSerialKey(HardwareId.GetCombinedHardwareId(), vorname, nachname));
+                }
+            );
+
+            // 3) Befehl "exit"
+            _commands["exit"] = new Command(
+                "exit",
+                "Beendet das Programm.",
+                args =>
+                {
+                    // Hier direkt nichts tun, der Hauptloop erkennt "exit" und beendet sich
+                }
+            );
+
+            // 4) Befehl "quit"
+            _commands["quit"] = new Command(
+                "quit",
+                "Beendet das Programm (Alternative zu exit).",
+                args => { }
+            );
+
+            // Du kannst jederzeit weitere Befehle auf gleiche Weise hinzufügen
+        }
+
+    }
+}
