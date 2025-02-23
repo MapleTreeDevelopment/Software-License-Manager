@@ -1,11 +1,6 @@
 ﻿using Software_License_Manager;
 using Software_License_Manager.local;
 using Software_License_Manager.remote;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SLM_Test.command
 {
@@ -26,7 +21,7 @@ namespace SLM_Test.command
 
         private static void RegisterCommands()
         {
-            // 1) Der "help"-Befehl
+            //Der "help"-Befehl
             _commands["help"] = new Command(
                 "help",
                 "Zeigt eine Liste aller verfügbaren Befehle an.",
@@ -96,24 +91,23 @@ namespace SLM_Test.command
 
 
 
-            // 3) Befehl "exit"
+            //Befehl "exit"
             _commands["exit"] = new Command(
                 "exit",
                 "Beendet das Programm.",
                 args =>
                 {
-                    // Hier direkt nichts tun, der Hauptloop erkennt "exit" und beendet sich
+                    
                 }
             );
 
-            // 4) Befehl "quit"
+            //Befehl "quit"
             _commands["quit"] = new Command(
                 "quit",
                 "Beendet das Programm (Alternative zu exit).",
                 args => { }
             );
 
-            // Du kannst jederzeit weitere Befehle auf gleiche Weise hinzufügen
         }
 
     }
