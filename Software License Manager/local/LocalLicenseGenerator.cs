@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 
 namespace Software_License_Manager.local
 {
-    using System;
-    using System.Security.Cryptography;
-    using System.Text;
 
     public static class LocalLicenseGenerator
     {
